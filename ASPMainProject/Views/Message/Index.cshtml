@@ -1,0 +1,27 @@
+﻿@model List<ASPMainProject.Models.ChatPreview>
+
+<br>
+
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4> Your conversations:</h4>
+        </div>
+
+        <div class="list-group">
+            @foreach(var item in Model)
+            { 
+            <a href="@Url.Action("Chat", "Message", new { chatId = @item.Id})" class="list-group-item">
+                @if (@item.NewMessagesCount > 0)
+                { 
+                <span class="badge pull-right">+@item.NewMessagesCount</span>
+                }
+                <div>
+                    @item.LastMessageContent
+                </div>
+                <small class="text-muted"> @item.InterlocutorName | @item.LastMessageDate.ToString("g")</small>
+            </a>    
+            }          
+        </div>
+    </div>
+</div>

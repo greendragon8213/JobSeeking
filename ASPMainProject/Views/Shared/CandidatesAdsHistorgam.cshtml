@@ -1,0 +1,35 @@
+﻿@model System.Collections.ArrayList
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['bar'] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = 
+              google.visualization.arrayToDataTable(@Html.Raw(Json.Encode(@Model))
+              //[
+              //  ['KeyWord', 'Cand', 'Empl'],
+              //  ['c#', 1000, 400],
+              //  ['php', 1170, 460],
+              //  ['rr', 660, 1120],
+              //  ['5', 1030, 540]
+              //]
+            );
+
+            var options = {
+                chart: {
+                    title: 'Candidates to Adverticemenys correlation',
+                    subtitle: 'Amount of candidates, amount of vacancies by keyword'
+                }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+            chart.draw(data, options);
+        }
+    </script>
+<body>
+    <div style="border-color:red">
+        <div id="columnchart_material" style="width: auto; height: auto; padding:1px;"></div>
+    </div>
+</body>

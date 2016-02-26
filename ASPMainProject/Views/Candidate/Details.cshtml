@@ -1,0 +1,60 @@
+﻿@model ASPMainProject.Models.Candidate
+
+<div class="container">
+    <div class="col-sm-12, row">
+        <h2>@Model.ExpectedPosition@*.NET/ASP.NET Software Developer*@ <small><a href="@Url.Action("DetailsForm", "Candidate", new { candidateId = Model.Id })">Edit</a></small> </h2>
+
+        <div class="main-profile-details">
+            @if (Model.ApprovingState == ASPMainProject.Models.ApprovingState.Approved)
+            {
+                <span class="label label-success">
+                    @Model.ApprovingState
+                </span>
+            }
+            else
+            {
+                <span class="label label-danger">
+                    @Model.ApprovingState
+                </span>
+            }
+            <p><b>Location: </b>@Model.Location</p>
+            <p><b> Salary:</b> $ @Model.SalaryPerMonth </p>
+            <p><b>Experience years:</b> @Model.ExperienceYears</p>
+        </div>
+    </div>
+    <div class="col-sm-12, row">
+        <hr />
+        <h3>Details:</h3>
+        <p class="before-hint"><b>Experience description: </b>@Model.ExperienceDescription
+        <p class="profile">
+            <b>Skills:</b>
+            @Model.Skills
+        </p>
+        <p>
+        @if (Model.KeyWords != null)
+        {
+            foreach (var elem in Model.KeyWords)
+            {
+                <span class="label label-info" style="margin:2px">
+                    @elem.Value
+                </span>
+            }
+        }
+        </p>
+        <hr>
+
+        @using (Html.BeginForm("SendMessageTo", "Message", FormMethod.Post, new { @class = "js-profile-form form-horizontal", role = "form" }))
+        {
+            @Html.Hidden("receiverId", Model.UserId);
+            <h4>You can suggest your vacancies here:</h4>
+            <div class="col-sm-10">
+                <div class="form-group">
+                    @Html.TextArea("messageText", new { @class = "form-control", @rows = "9", maxlength = "750", @placeholder = "Describe your proposition here!" })
+                </div>
+                <button class="btn btn-success btn-lg" name="contact" id="send-btn" data-loading-text="Sending...">
+                    Send message
+                </button>
+            </div>
+        }
+    </div>
+</div>

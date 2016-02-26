@@ -1,0 +1,46 @@
+﻿@model ASPMainProject.Models.Employer
+
+<div class="container">
+    <div class="col-sm-12, row">
+        <h2>@Model.FullName <small><a href="@Url.Action("DetailsForm", "Employer", new {id = Model.Id })">Edit</a></small> </h2>
+
+        <div class="main-profile-details">
+            @if (Model.ApprovingState == ASPMainProject.Models.ApprovingState.Approved)
+            {
+                <span class="label label-success">
+                    @Model.ApprovingState
+                </span>
+            }
+            else
+            {
+                <span class="label label-danger">
+                    @Model.ApprovingState
+                </span>
+            }
+            <p><b>Company: </b>@Model.Company</p>
+            <p><b>Contact Information: </b>@Model.ContactInformation</p>
+            <p><b><a href="@Url.Action("Index", "Ad", new { employerId = Model.Id })">Employer ads</a></b></p>
+        </div>
+    </div>
+
+    @*ads here!!!! TODO*@
+
+    <div class="col-sm-12, row">
+        <hr>
+        @*@if (Session["Role"] == "employer")
+            {*@
+        @using (Html.BeginForm("SendMessageTo", "Message", FormMethod.Post, new { @class = "js-profile-form form-horizontal", role = "form" }))
+        {
+            @Html.Hidden("receiverId", Model.UserId);
+            <div class="col-sm-10">
+                <div class="form-group">
+                    @Html.TextArea("messageText", new { @class = "form-control", @rows = "9", maxlength = "750", @placeholder = "" })
+                </div>
+                <button class="btn btn-success btn-lg" name="contact" id="send-btn" data-loading-text="Sending...">
+                    Send message
+                </button>
+            </div>
+        }
+        @*}*@
+    </div>
+</div>

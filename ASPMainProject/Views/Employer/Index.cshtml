@@ -1,0 +1,71 @@
+﻿@model List<ASPMainProject.Models.Employer>
+<div class="container">
+    <br />
+
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4> Employers:</h4>
+            </div>
+            <div class="panel-body">
+                @foreach(var item in Model)
+                { 
+                    <div class="clearfix">
+                        <p class="pull-right ">
+                            @if (item.ApprovingState == ASPMainProject.Models.ApprovingState.Approved)
+                            {
+                                <span class="label label-success pull-right">
+                                    @item.ApprovingState
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="label label-danger pull-right">
+                                    @item.ApprovingState
+                                </span>
+                            }
+                            <br />
+                            <small>
+                                <a href="@Url.Action("DetailsForm", "Employer", new { id = item.Id })">Edit employer</a>
+                            </small>
+                            |
+                            <small>
+                                <a href="@Url.Action("Index", "Ad", new { employerId = item.Id })">Employer ads</a>
+                            </small>
+                        </p>
+                        <h4> <a href="@Url.Action("Details", "Employer", new { id = item.Id })">@item.FullName</a> </h4>
+                        <p class="tiny-profile-details">@item.Company</p>
+                        <p>
+                            @*TODO ads!!!!!*@
+                        </p>
+                        <hr>
+                    </div>
+                }
+
+                @*@foreach (var item in Model.FilteredCandidates)
+                    {
+                        <div class="clearfix">
+                            <p class="pull-right ">
+                                @if (Session["Role"] == "admin")
+                                {
+                                    <small>
+                                        <a href="@Url.Action("ApproveCandidateForm" , "Category2Candidate" , new { candidateId=item.Id })">Approve candidate</a>
+                                    </small>
+                                    <br />
+                                    <small>
+                                        <a href="@Url.Action("DetailsForm" , "Candidate" , new { candidateId=item.Id })">Edit candidate</a>
+                                    </small>
+                                }
+                            </p> <h4> <a href="@Url.Action("Details", "Candidate", new { candidateId = item.Id })">@item.Position</a> </h4>
+                            <p class="tiny-profile-details">@item.Location <span class="profile-details-salary">Зарплата в год: $@item.SalaryYear</span>·Лет опыта: @item.ExperienceYears · Английский выше среднего</p>
+                            <p>Опыт, навыки: @item.ExperienceDescription</p>
+                            <p class="info"><em>Ожидания от новой работы: @item.Expectations</em></p>
+                            <hr>
+                        </div>
+                    }*@
+            </div>
+        </div>
+    </div>
+
+    <br />
+</div>

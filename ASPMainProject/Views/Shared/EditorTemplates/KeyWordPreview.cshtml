@@ -1,0 +1,11 @@
+﻿@model ASPMainProject.Models.KeyWordPreview
+
+
+<tr>
+    <td class="text-nowrap">@Html.CheckBoxFor(m => m.Selected, new { @class = "chkSelect" })</td>
+    <td colspan="3">
+        @Model.Value
+        @Html.HiddenFor(m => m.Value)
+        @Html.HiddenFor(m => m.Id)
+    </td>
+</tr>

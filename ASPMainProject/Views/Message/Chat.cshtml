@@ -1,0 +1,76 @@
+﻿@model ASPMainProject.Models.Chat
+<br/>
+@*<h2>Conversation</h2>*@
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">  
+
+            <h4>@Html.ActionLink(@Model.InterlocutorName, "GoToProfilePage", "Account",
+                    new { userName = @Model.InterlocutorName }, htmlAttributes: new { title = "Conversation" })</h4>
+        </div>
+
+        <div class="panel-body" style="max-height: 60vh; overflow-y: scroll;">
+            <div class="container">
+                @if (Model.Messages != null)
+                {
+                    foreach (var item in Model.Messages)
+                    {
+                        if (item.AuthorId == Model.CurrentUserId)
+                        {
+                            <div class="row">
+                                <div class="well pull-right" style="max-width: 70%;">
+                                    @item.Text
+                                </div>
+                                <small class="text-muted pull-right">
+                                    @item.Date.ToString("d") <br />
+                                    @item.Date.ToString("HH:mm")
+                                </small>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                @if (item.IsRead)
+                                {
+                                    <div class="pull-left well" style="max-width: 70%;">
+                                        @item.Text
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="pull-left alert alert-info" role="alert" style="max-width: 70%;">
+                                        @item.Text
+                                    </div>
+                                }
+                                <small class="text-muted pull-left">
+                                    @item.Date.ToString("d") <br />
+                                    @item.Date.ToString("HH:mm")
+                                </small>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+@using (Html.BeginForm("SendMessageTo", "Message", FormMethod.Post, new { @class = "js-profile-form form-horizontal", role = "form" }))
+{
+            @Html.Hidden("receiverId", Model.InterlocutorId)
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            
+                            @Html.TextArea("messageText", new { @class = "form-control  pull-right", @rows = "1", maxlength = "750", @placeholder = "Введите ваше сообщение!" })
+                            
+                            <span class="input-group-btn">
+                                <button class="btn btn-success btn-success" name="contact" id="send-btn" data-loading-text="Sending...">
+                                    Send
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

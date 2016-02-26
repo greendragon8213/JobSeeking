@@ -1,0 +1,171 @@
+﻿@model ASPMainProject.Models.Candidate
+
+<div class="container">
+    <div class="page-header">
+        <h1>Edit profile</h1>
+    </div>
+
+    @using (Html.BeginForm("DetailsForm", "Candidate", FormMethod.Post, new { @class = "js-profile-form form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+        @Html.Hidden("Id", Model.Id);
+        @Html.Hidden("UserId", Model.UserId);
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="position">Expected position:</label>
+                    <div class="col-sm-7">
+                        @*here was Html.TextBoxFor(m => m.SalaryMonth, ...) !!!!!!!*@
+                        @Html.TextBoxFor(m => m.ExpectedPosition,  new { @class = "form-control", @autocomplete = "off", @id = "position", @placeholder = "Junior Front-end Developer" }) 
+                        @*@Html.TextBox("Position", new { @class = "form-control", @autocomplete = "off", @id = "position", @placeholder = "Junior Front-end Developer" })*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="SalaryMonth">Salary per month:</label>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <div class="input-group-addon">$</div>
+                            @Html.TextBoxFor(m => m.SalaryPerMonth, new { @type = "number", @value = "200", @class = "form-control input", @step = "100", @required = "required", @autocomplete = "off", @placeholder = "700" })                            
+                            @*@Html.TextBox("SalaryMonth", new { @type = "number", @value = "400", @class = "form-control input", @step = "400", @required = "required", @autocomplete = "off", @placeholder = "700" })*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="location">Location:</label>
+                    <div class="col-sm-7">
+                        @Html.TextBoxFor(m => m.Location, new { @class = "form-control", @autocomplete = "off", @required = "required", @placeholder = "Львов" })
+                        <p class="help-block">
+                            Город, где вы ищете работу.
+                            Например: Киев, Львов.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="Skills">Skills</label>
+                    <div class="col-sm-7">
+                        @Html.TextBoxFor(m => m.Skills, new { @class = "input form-control", @rows = "5", @maxlength = "750", @placeholder = "JavaScript, css3, HTML5, git, php(wordpress template-making)" })
+                        @*@if (Session["Role"] != "admin")
+                            {*@
+                        <p class="help-block">
+                            Напишите главное, не пишите все
+                            знакомые аббревиатуры
+                        </p>
+                        @*}*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ExperienceYears">Experience years:</label>
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            @Html.TextBoxFor(m => m.ExperienceYears, new { @type = "number", @value = "2", @placeholder = "2", @class = "form-control input", @step = "1", @required = "required", @autocomplete = "off" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="moreinfo">
+                        Experience description:
+                    </label>
+                    <div class="col-sm-7">
+                        @Html.TextAreaFor(m => m.ExperienceDescription, new { @class = "form-control", @rows = "9", maxlength = "750", @placeholder = "some exp descr.." })
+                        @*@if (Session["Role"] != "admin")
+                            {*@
+                        <p class="help-block">
+                            Descripe your acting on previous work
+                        </p>
+                        @*}*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+                        <div class="col-sm-10">
+                            <label class="col-sm-3 control-label" for="KeyWords">Key words:</label>
+                            <div class="col-sm-4">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="chkSelectAll" /></th>
+                                            <th colspan="3">
+                                                Select all
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @Html.EditorFor(m => m.KeyWordPreviews)
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+        <script>
+                        //$(document).ready(function () {
+                        //    alert("it works!!!!!!!!!!!!");
+                        //});
+
+                        $("#chkSelectAll").bind("change", function () {
+                            $(".chkSelect").prop("checked", $(this).prop("checked"));
+                        });
+                        $(".chkSelect").bind("change", function () {
+                            if (!$(this).prop("checked"))
+                                $("#chkSelectAll").prop("checked", false);
+                        });
+                        $(".alert").hide().fadeIn("slow");
+                    </script>
+                
+         <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ApprovingState">Approving State:</label>
+                    <div class="col-sm-7">
+                        @Html.DropDownListFor(m => m.ApprovingState, new SelectList(new List<Object>
+                       {
+                             new { value = 0 , text = "UnApproved"  },
+                             new { value = 1 , text = "Approved"  },
+                       },
+                        "value",
+                        "text",
+                        Model.ApprovingState
+                        ), new { @class = "form-control" })
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>       
+
+        @*<div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="state">State:</label>
+                    <div class="col-sm-7">
+                        @Html.TextBoxFor(m => m.ApprovingState, new { @class = "form-control", @autocomplete = "on", @required = "required", @placeholder = "Approved" })
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>*@
+
+        <div id="extraquestions">
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-7">
+                            @*what is this???*@
+                        <input type="hidden" name="csrfmiddlewaretoken" value="YtGI6gCFc5mkHM6F1OwbNA87MDbApMyI">
+                        <input type="submit" class="btn btn-primary btn-lg" value="Refresh profile ">
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+    }
+</div>

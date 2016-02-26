@@ -1,0 +1,90 @@
+﻿@model ASPMainProject.Models.Employer
+<div class="container">
+    <div class="page-header">
+        <h1>Edit profile</h1>
+    </div>
+
+    @using (Html.BeginForm("DetailsForm", "Employer", FormMethod.Post, new { @class = "js-profile-form form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+        @Html.Hidden("Id", Model.Id);
+        @Html.Hidden("UserId", Model.UserId);
+
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="FullName">Full Name:</label>
+                    <div class="col-sm-7">
+                        @*here was Html.TextBoxFor(m => m.SalaryMonth, ...) !!!!!!!*@
+                        @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @autocomplete = "off", @id = "fullName", @placeholder = "Julia Baker" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="Company">Company:</label>
+                    <div class="col-sm-7">
+                        @Html.TextBoxFor(m => m.Company, new { @class = "form-control", @autocomplete = "off", @required = "required", @placeholder = "Microsoft" })
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ContactInformation">Contact Information:</label>
+                    <div class="col-sm-7">
+                        @Html.TextAreaFor(m => m.ContactInformation, new { @class = "form-control", @autocomplete = "off", @id = "contactInformation", @placeholder = "000000000" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ApprovingState">Approving State:</label>
+                    <div class="col-sm-7">
+
+                        @Html.DropDownListFor(m => m.ApprovingState, new SelectList(new List<Object>
+                       {
+                             new { value = 0 , text = "UnApproved"  },
+                             new { value = 1 , text = "Approved"  },
+                       },
+                        "value",
+                        "text",
+                        Model.ApprovingState
+                        ), new { @class = "form-control" })
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>       
+
+        @*<div class="row">
+            <div class="col-sm-10">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="ApprovingState">State:</label>
+                    <div class="col-sm-7">
+                        @Html.TextBoxFor(m => m.ApprovingState, new { @class = "form-control", @autocomplete = "on", @required = "required", @placeholder = "Approved" })
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>*@
+
+        <div id="extraquestions">
+            <div class="row">
+                <div class="col-sm-10">
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-7">
+                            @*what is this???*@
+                            <input type="hidden" name="csrfmiddlewaretoken" value="YtGI6gCFc5mkHM6F1OwbNA87MDbApMyI">
+                            <input type="submit" class="btn btn-primary btn-lg" value="Refresh profile ">
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    }
+</div>

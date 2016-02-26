@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")  @*I neen this to run jquery*@
+
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("TEST", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div><div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (!Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    }
+                    @if (Request.IsAuthenticated)
+                    {
+                    <li>
+                        <a href="@Url.Action("Index", "Message")">
+                            Messages
+                                @if (@ViewBag.NewMessagesInAllChatsCount > 0)
+                                {
+                                    <span class="badge">+@ViewBag.NewMessagesInAllChatsCount</span>
+                                }
+                        </a>
+                    </li>
+                    }
+                    @*if (Session["Role"] == "employer" || Session["Role"] == "admin")*@
+                    {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Candidates
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Candidates", "Index", "Candidate")</li>
+                            @if (Session["Role"] == "admin")
+                            {
+                                <li>@Html.ActionLink("Unapproved Candidates", "Index", "Category2Candidate")</li>
+                                <li>@Html.ActionLink("Candidate Categories", "Index", "CandidateCategoryGroup")</li>
+                            }
+                        </ul>
+                    </li>
+                    }
+                    @*if (Session["Role"] == "candidate" || Session["Role"] == "admin")*@
+                    {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Employers
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Employers", "Index", "Employer")</li>
+                            @if (Session["Role"] == "admin")
+                            {
+                                <li>@Html.ActionLink("Unapproved Employers", "Index", "Category2Employer")</li>
+                                <li>@Html.ActionLink("Employer Categories", "Index", "EmployerCategoryGroup")</li>
+                            }
+                        </ul>
+                    </li>
+                    }
+                    }
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Adverticements
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Actual Ads", "Index", "Ad")</li>
+                            <li>@Html.ActionLink("Unactual Ads", "Index", "Ad")</li>
+                        </ul>
+                    </li>
+
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - TEST</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>
